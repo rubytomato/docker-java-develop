@@ -1,0 +1,49 @@
+version: "3"
+
+# comment
+
+services:
+  db:
+    container_name: mysql-server
+    build:
+      context: ./mysql
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    networks:
+      - my-network
+    restart: always
+  app:
+    container_name: app-server
+    build:
+      context: ./app
+    volumes:
+      - ${PROJECT_HOME}:/app
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - db
+    networks:
+      - my-network
+    restart: always
+    tty: true
+  web:
+    container_name: nginx-server
+    build:
+      context: ./nginx
+    depends_on:
+      - app
+    ports:
+      - 80:80
+    networks:
+      - my-network
+    restart: always
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
