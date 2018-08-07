@@ -11,6 +11,6 @@ log_timestamps = SYSTEM
 long_query_time = 3
 slow_query_log = 1
 
-# general_log_file = /var/log/mysql/general_query_all.log
-# log_error = /var/log/mysql/error.log
-# slow_query_log_file = /var/log/mysql/slow_query.log
+general_log_file = general_query_all.log
+log_error = error.log
+slow_query_log_file = slow_query.log
